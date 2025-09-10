@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/UI/Header";
+import { Providers } from "@/providers/providers";
+import { siteConfig } from "@/config/site.config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tatar cuisine",
-  description: "Tatar cuisine recipes",
+  title: siteConfig.title,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({
@@ -27,7 +30,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
