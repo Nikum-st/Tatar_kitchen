@@ -16,8 +16,11 @@
     "@heroui/react": "^2.8.3",
     "@heroui/system": "^2.4.22",
     "@heroui/theme": "^2.4.22",
+    "@prisma/client": "^6.16.1",
+    "@prisma/extension-accelerate": "^2.0.2",
     "framer-motion": "^12.23.12",
     "next": "15.5.2",
+    "prisma": "^6.16.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
