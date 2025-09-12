@@ -60,7 +60,7 @@ const LoginForm = ({ onClose }: IProps) => {
           Cancel
         </Button>
         <Button color="primary" type="submit">
-          Sign up
+          log in
         </Button>
       </div>
     </Form>
