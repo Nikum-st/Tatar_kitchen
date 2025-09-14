@@ -42,7 +42,7 @@ export default function Header() {
             href={item.href}
             className={`px-3 py-1 border border-transparent rounded-md ${
               isActive ? "text-blue-400" : "text-foreground"
-            } hover:text-blue-200 hover:border-blue-200 hover:border hover:rounded-md transition-colors transition-border duration-100`}
+            } hover:text-blue-400 hover:border-blue-400 hover:border hover:rounded-md transition-colors transition-border duration-100`}
           >
             {item.label}
           </Link>
@@ -71,7 +71,7 @@ export default function Header() {
             variant="flat"
             onPress={() => setIsLoginOpen(true)}
           >
-            <p className="text-">Log in</p>
+            <p className="text-zinc-300">Log in</p>
           </Button>
         </NavbarItem>
         <NavbarItem>

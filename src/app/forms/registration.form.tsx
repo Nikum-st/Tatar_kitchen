@@ -1,3 +1,4 @@
+import { registerUser } from "@/actions/registration";
 import { Button, Form, Input } from "@heroui/react";
 import { useState } from "react";
 
@@ -13,13 +14,15 @@ const RegistrationForm = ({ onClose }: IProps) => {
   });
 
   const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@] +@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submited" + formData);
+
+    const result = await registerUser(formData);
+    console.log("Form submited", result);
 
     onClose();
   };
@@ -76,7 +79,7 @@ const RegistrationForm = ({ onClose }: IProps) => {
         }
         validate={(value) => {
           if (!value) return "confirm password is required";
-          if (value === formData.password) return "passwords do not match";
+          if (value !== formData.password) return "passwords do not match";
           return null;
         }}
       />
