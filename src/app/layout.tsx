@@ -36,7 +36,6 @@ export default async function RootLayout({
       >
         <Providers>
           <SessionProvider session={session}>
-            {" "}
             <Header />
             <main
               className="flex flex-col w-full items-center justify-start"

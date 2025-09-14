@@ -14,6 +14,7 @@ import { layoutConfig } from "@/config/layout.config";
 import LoginModal from "../modals/Login.modal";
 import RegistrationModal from "../modals/registration.modal";
 import { useState } from "react";
+import { signOutFunc } from "@/actions/sign-out";
 
 export const Logo = () => {
   return (
@@ -25,6 +26,10 @@ export const Logo = () => {
       priority
     />
   );
+};
+
+const handleSignOut = async () => {
+  await signOutFunc();
 };
 
 export default function Header() {
@@ -63,6 +68,17 @@ export default function Header() {
         {getNavItems()}
       </NavbarContent>
       <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <Button
+            as={Link}
+            color="default"
+            href="#"
+            variant="flat"
+            onPress={handleSignOut}
+          >
+            <p className="text-zinc-300">Log out</p>
+          </Button>
+        </NavbarItem>
         <NavbarItem className="hidden lg:flex">
           <Button
             as={Link}
