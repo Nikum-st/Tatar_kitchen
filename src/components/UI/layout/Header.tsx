@@ -13,7 +13,7 @@ import { siteConfig } from "@/config/site.config";
 import { layoutConfig } from "@/config/layout.config";
 import LoginModal from "../modals/Login.modal";
 import RegistrationModal from "../modals/registration.modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signOutFunc } from "@/actions/sign-out";
 import { useSession } from "next-auth/react";
 
@@ -34,12 +34,16 @@ const handleSignOut = async () => {
 };
 
 export default function Header() {
+  const { status, data } = useSession();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegistartionOpen, setIsRegistartionOpen] = useState(false);
-  const pathname = usePathname();
+  const [isAuth, setIsAuth] = useState(status === "authenticated");
 
-  const { status, data } = useSession();
-  console.log(status, data);
+  useEffect(() => {
+    setIsAuth(status === "authenticated");
+  }, [status]);
+
+  const pathname = usePathname();
 
   const getNavItems = () => {
     return siteConfig.navItems.map((item) => {
@@ -72,39 +76,46 @@ export default function Header() {
         {getNavItems()}
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Button
-            as={Link}
-            color="default"
-            href="#"
-            variant="flat"
-            onPress={handleSignOut}
-          >
-            <p className="text-zinc-300">Log out</p>
-          </Button>
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">
-          <Button
-            as={Link}
-            color="default"
-            href="#"
-            variant="flat"
-            onPress={() => setIsLoginOpen(true)}
-          >
-            <p className="text-zinc-300">Log in</p>
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            color="primary"
-            href="#"
-            variant="flat"
-            onPress={() => setIsRegistartionOpen(true)}
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
+        {isAuth ? (
+          <NavbarItem className="hidden lg:flex">
+            <p className="font-bold text-inherit">{data?.user?.name}</p>
+            <Button
+              as={Link}
+              color="default"
+              href="#"
+              variant="flat"
+              onPress={handleSignOut}
+            >
+              <p className="text-zinc-300">Log out</p>
+            </Button>
+          </NavbarItem>
+        ) : (
+          <>
+            {" "}
+            <NavbarItem className="hidden lg:flex">
+              <Button
+                as={Link}
+                color="default"
+                href="#"
+                variant="flat"
+                onPress={() => setIsLoginOpen(true)}
+              >
+                <p className="text-zinc-300">Log in</p>
+              </Button>
+            </NavbarItem>
+            <NavbarItem>
+              <Button
+                as={Link}
+                color="primary"
+                href="#"
+                variant="flat"
+                onPress={() => setIsRegistartionOpen(true)}
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        )}
       </NavbarContent>
       <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
       <RegistrationModal

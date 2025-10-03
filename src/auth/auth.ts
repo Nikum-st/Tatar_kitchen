@@ -36,7 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             user.password
           );
 
-          if (isPasswordValid) {
+          if (!isPasswordValid) {
             throw new Error("Incorrect data entry");
           }
 
@@ -54,7 +54,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
     maxAge: 3600,
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
