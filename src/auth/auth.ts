@@ -4,6 +4,8 @@ import { ZodError } from "zod";
 import Credentials from "next-auth/providers/credentials";
 import { signInSchema } from "@/schema/zod";
 import prisma from "@/utils/prisma";
+{
+}
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcryptjs from "bcryptjs";
 
@@ -48,4 +50,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+    maxAge: 3600,
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+  },
 });

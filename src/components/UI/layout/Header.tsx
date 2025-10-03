@@ -15,6 +15,7 @@ import LoginModal from "../modals/Login.modal";
 import RegistrationModal from "../modals/registration.modal";
 import { useState } from "react";
 import { signOutFunc } from "@/actions/sign-out";
+import { useSession } from "next-auth/react";
 
 export const Logo = () => {
   return (
@@ -36,6 +37,9 @@ export default function Header() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegistartionOpen, setIsRegistartionOpen] = useState(false);
   const pathname = usePathname();
+
+  const { status, data } = useSession();
+  console.log(status, data);
 
   const getNavItems = () => {
     return siteConfig.navItems.map((item) => {
