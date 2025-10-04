@@ -1,4 +1,4 @@
-import { registerUser } from "@/actions/registration";
+import { registerUser } from "@/app/api/actions/registration";
 import { Button, Form, Input } from "@heroui/react";
 import { useState } from "react";
 

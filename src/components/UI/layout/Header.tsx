@@ -13,9 +13,9 @@ import { siteConfig } from "@/config/site.config";
 import { layoutConfig } from "@/config/layout.config";
 import LoginModal from "../modals/Login.modal";
 import RegistrationModal from "../modals/registration.modal";
-import { useEffect, useState } from "react";
-import { signOutFunc } from "@/actions/sign-out";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { signOutFunc } from "@/app/api/actions/sign-out";
+import { useAuthState } from "@/store/auth.store";
 
 export const Logo = () => {
   return (
@@ -29,21 +29,22 @@ export const Logo = () => {
   );
 };
 
-const handleSignOut = async () => {
-  await signOutFunc();
-};
-
 export default function Header() {
-  const { status, data } = useSession();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegistartionOpen, setIsRegistartionOpen] = useState(false);
-  const [isAuth, setIsAuth] = useState(status === "authenticated");
 
-  useEffect(() => {
-    setIsAuth(status === "authenticated");
-  }, [status]);
+  const { isAuth, session, setAuthState } = useAuthState();
 
   const pathname = usePathname();
+
+  const handleSignOut = async () => {
+    try {
+      await signOutFunc();
+      setAuthState("unauthenticated", null);
+    } catch (error) {
+      console.error("error", error);
+    }
+  };
 
   const getNavItems = () => {
     return siteConfig.navItems.map((item) => {
@@ -77,18 +78,21 @@ export default function Header() {
       </NavbarContent>
       <NavbarContent justify="end">
         {isAuth ? (
-          <NavbarItem className="hidden lg:flex">
-            <p className="font-bold text-inherit">{data?.user?.name}</p>
-            <Button
-              as={Link}
-              color="default"
-              href="#"
-              variant="flat"
-              onPress={handleSignOut}
-            >
-              <p className="text-zinc-300">Log out</p>
-            </Button>
-          </NavbarItem>
+          <>
+            {" "}
+            <p className="font-bold text-inherit">{session?.user?.email}</p>
+            <NavbarItem className="hidden lg:flex">
+              <Button
+                as={Link}
+                color="default"
+                href="#"
+                variant="flat"
+                onPress={handleSignOut}
+              >
+                <p className="text-zinc-300">Log out</p>
+              </Button>
+            </NavbarItem>
+          </>
         ) : (
           <>
             {" "}

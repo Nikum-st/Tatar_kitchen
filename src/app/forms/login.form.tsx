@@ -1,6 +1,6 @@
-import { signInWithCredential } from "@/actions/sign-in";
+import { signInWithCredential } from "@/app/api/actions/sign-in";
 import { Button, Form, Input } from "@heroui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface IProps {
   onClose: () => void;

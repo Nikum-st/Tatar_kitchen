@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth/auth";
+import { signIn } from "@/app/auth/route";
 
 export async function signInWithCredential(email: string, password: string) {
   try {
